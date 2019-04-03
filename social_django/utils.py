@@ -34,7 +34,8 @@ def psa(redirect_uri=None, load_strategy=load_strategy):
         def wrapper(request, backend, *args, **kwargs):
             uri = redirect_uri
             if uri and not uri.startswith('/'):
-                uri = reverse(redirect_uri, args=(backend,))
+                endpoint_url = reverse(redirect_uri, args=(backend,))
+                uri = f'{settings.SITE_URL}{endpoint_url}'
             request.social_strategy = load_strategy(request)
             # backward compatibility in attribute name, only if not already
             # defined
